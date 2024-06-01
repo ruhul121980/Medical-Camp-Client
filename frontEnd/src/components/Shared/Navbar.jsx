@@ -4,7 +4,7 @@ import { AuthContext } from '../../providers/AuthProvider';
 
 export default function Navbar() {
     const { user, logOut } = useContext(AuthContext);
-    const [isHovered, setIsHovered] = useState(false);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
     const handleLogout = () => {
         logOut()
@@ -12,21 +12,26 @@ export default function Navbar() {
             .catch(error => console.error(error));
     };
 
+    const handleDashboard = () => {
+        console.log("clicked dashboard");
+    };
+
+    const toggleDropdown = () => {
+        setIsDropdownOpen(!isDropdownOpen);
+    };
+
     const userPhotoURL = user && user.photoURL;
 
     const navLinks = (
         <>
             <li><NavLink to="/" activeClassName="font-bold">Home</NavLink></li>
-            <li><NavLink to="/allArt" activeClassName="font-bold">All Art & craft Items</NavLink></li>
-            {
-                user && (
-                    <>
-                       
-                        <li><NavLink to="/addCraft" activeClassName="font-bold">Add Craft Item</NavLink></li>
-                        <li> <Link to="/myARt" className="btn btn-sm ">My Art&Craft List</Link></li>
-                    </>
-                )
-            }
+            <li><NavLink to="/available-camp" activeClassName="font-bold">Available Camp</NavLink></li>
+            <li><NavLink to="/login" activeClassName="font-bold">Join Us</NavLink></li>
+            {user && (
+                <>
+                    
+                </>
+            )}
         </>
     );
 
@@ -36,13 +41,15 @@ export default function Navbar() {
                 <div className="flex items-center">
                     <div className="dropdown lg:hidden">
                         <div tabIndex={0} role="button" className="btn btn-ghost">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" />
+                            </svg>
                         </div>
                         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
                             {navLinks}
                         </ul>
                     </div>
-                    <Link to="/" className="btn btn-ghost text-xl">R.A.H Art & Craft</Link>
+                    <Link to="/" className="btn btn-ghost text-xl">CampCare360</Link>
                 </div>
                 <div className="hidden lg:flex">
                     <ul className="menu menu-horizontal px-1">
@@ -50,22 +57,17 @@ export default function Navbar() {
                     </ul>
                 </div>
                 <div className="flex items-center relative">
-                    {user ? (
-                        <>
-                       
-
-                            <span
-                                onMouseEnter={() => setIsHovered(true)}
-                                onMouseLeave={() => setIsHovered(false)}
-                                className="relative"
-                            >
-                                <img src={userPhotoURL} alt="User profile" className="w-8 h-8 rounded-full mr-2" />
-                                {isHovered && <span className="absolute top-0 left-0 bg-white p-1 rounded">{user.displayName}</span>}
-                            </span>
-                            <button onClick={handleLogout} className="btn btn-sm">Log Out</button>
-                        </>
-                    ) : (
-                        <Link to="/login" className="btn btn-sm">Login</Link>
+                    {user && (
+                        <div className="relative" onClick={toggleDropdown}>
+                            <img src={userPhotoURL} alt="User profile" className="w-8 h-8 rounded-full cursor-pointer" />
+                            {isDropdownOpen && (
+                                <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg p-2 z-50">
+                                    <div className="px-4 py-2 border-b border-gray-200">{user.displayName}</div>
+                                    <button onClick={handleDashboard} className="w-full text-left px-4 py-2 hover:bg-gray-100">Dashboard</button>
+                                    <button onClick={handleLogout} className="w-full text-left px-4 py-2 hover:bg-gray-100">Log Out</button>
+                                </div>
+                            )}
+                        </div>
                     )}
                 </div>
             </div>
