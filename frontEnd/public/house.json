@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "estate_title": "Modern Beachfront Villa",
+    "segment_name": "Residential",
+    "description": "Stunning villa with direct beach access, ideal for luxurious living.",
+    "price": 2500000,
+    "status": "sale",
+    "area": "6000 sq ft",
+    "location": "Miami Beach, Florida",
+    "facilities": ["swimming pool", "private beach", "garden", "home theater"],
+    "image": "https://i.ibb.co/m6F1QZZ/steve-sharp-J2-JRr-Y6-UR-w-unsplash.jpg"
+  },
+  {
+    "id": 2,
+    "estate_title": "Cozy Downtown Apartment",
+    "segment_name": "Residential",
+    "description": "Charming apartment in the heart of the city, perfect for urban living.",
+    "price": 2000,
+    "status": "rent",
+    "area": "800 sq ft",
+    "location": "San Francisco, California",
+    "facilities": ["balcony", "fitness center", "concierge service"],
+    "image": "https://i.ibb.co/BC8dV6M/home1.jpg"
+  },
+  {
+    "id": 3,
+    "estate_title": "Commercial Office Tower",
+    "segment_name": "Commercial",
+    "description": "State-of-the-art office tower equipped with modern amenities.",
+    "price": 10000000,
+    "status": "sale",
+    "area": "50000 sq ft",
+    "location": "Dubai, United Arab Emirates",
+    "facilities": ["conference rooms", "cafeteria", "parking garage"],
+    "image": "https://i.ibb.co/wY5fQST/home2.jpg"
+  },
+  {
+    "id": 4,
+    "estate_title": "Mountain Retreat Chalet",
+    "segment_name": "Residential",
+    "description": "Charming chalet nestled in the mountains, offering tranquility and natural beauty.",
+    "price": 800000,
+    "status": "sale",
+    "area": "4000 sq ft",
+    "location": "Aspen, Colorado",
+    "facilities": ["hot tub", "fireplace", "ski-in/ski-out access"],
+    "image": "https://i.ibb.co/FwcdHB9/img3.jpg"
+  }
+]
