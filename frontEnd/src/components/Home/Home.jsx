@@ -1,5 +1,6 @@
 import React from "react";
 import Slide from "./Slide";
+import PopularCamps from "./PopularCamps";
 
 
 export default function Home() {
@@ -7,6 +8,7 @@ export default function Home() {
     <div>
       <div className="">
       <Slide />
+      <PopularCamps></PopularCamps>
       </div>
      
       

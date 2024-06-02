@@ -33,7 +33,7 @@ export default function Navbar() {
         </NavLink>
       </li>
       <li>
-        <NavLink to="/available-camp" activeClassName="font-bold">
+        <NavLink to="/available-camps" activeClassName="font-bold">
           Available Camp
         </NavLink>
       </li>
