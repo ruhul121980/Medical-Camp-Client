@@ -1,6 +1,9 @@
+import { useContext } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import { AuthContext } from "../providers/AuthProvider";
 
 export default function Dashboard() {
+  const { user } = useContext(AuthContext);
   return (
     <div className="flex">
         {/* dashboard sidebar */}
@@ -9,7 +12,7 @@ export default function Dashboard() {
             
             <li><NavLink to="/dashboard/organizerProfile">Organizer Profile</NavLink></li>
             <li><NavLink to="/dashboard/addACamp">Add A Camp</NavLink></li>
-            <li><NavLink to="/dashboard/manageCamps">Manage Camps</NavLink></li>
+            <li><NavLink to={`/dashboard/manageCamps/${user.email}`}>Manage Camps</NavLink></li>
             <li><NavLink to="/dashboard/manageRegisteredCamps">Manage Registered Camps</NavLink></li>
         </ul>
       </div>

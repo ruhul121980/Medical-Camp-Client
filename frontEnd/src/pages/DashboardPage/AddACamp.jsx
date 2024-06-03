@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { AuthContext } from '../../providers/AuthProvider';
 
 const AddACamp = () => {
+  const { user} = useContext(AuthContext);
+  const email=user.email;
   const initialValues = {
     name: '',
     image: '',
@@ -13,6 +16,7 @@ const AddACamp = () => {
     healthcareProfessional: '',
     participantCount: 0,
     description: '',
+    email,
   };
 
   const validationSchema = Yup.object({

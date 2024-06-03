@@ -20,7 +20,7 @@ import ManageRegisteredCamps from './pages/DashboardPage/ManageRegisteredCamps';
 import { QueryClientProvider } from '@tanstack/react-query';
 import queryClient from './providers/queryClient';
 import AvailableCamps from './pages/AvailableCamp/AvailableCamps';
-import DetailsPopularCamp from './components/Home/DetailsPopularCamp';
+import DetailsPopularCamp from './components/PopularCamp/DetailsPopularCamp';
 
 const router = createBrowserRouter([
   {
@@ -66,7 +66,7 @@ const router = createBrowserRouter([
         element: <AddACamp></AddACamp>
       },
       {
-        path: 'manageCamps',
+        path: 'manageCamps/:email',
         element: <ManageCamps></ManageCamps>
       },
       {

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from 'react-router-dom';
+import RegistrationModal from './RegistrationModal'; // import the modal component
 
 const fetchCampDetails = async (id) => {
   const { data } = await axios.get(`http://localhost:5000/addCampData/${id}`);
@@ -9,12 +10,19 @@ const fetchCampDetails = async (id) => {
 };
 
 const DetailsPopularCamp = () => {
-  const { id } = useParams(); 
-
+  const { id } = useParams();
   const { data: camp, error, isLoading } = useQuery({
     queryKey: ["campDetails", id],
     queryFn: () => fetchCampDetails(id),
   });
+
+  // Sample logged in user information
+  const participant = {
+    name: "John Doe",
+    email: "john.doe@example.com"
+  };
+
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading camp details</div>;
@@ -37,10 +45,19 @@ const DetailsPopularCamp = () => {
             <p><span className="font-bold">Healthcare Professional:</span> {camp.healthcareProfessional}</p>
             <p><span className="font-bold">Description:</span> {camp.description}</p>
             <p><span className="font-bold">Participant Count:</span> {camp.participantCount}</p>
-            <button className="btn btn-primary">Join Camp</button>
+            <button className="btn btn-primary" onClick={() => setModalIsOpen(true)}>
+              Join Camp
+            </button>
           </div>
         </div>
       </div>
+
+      <RegistrationModal
+        camp={camp}
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+        participant={participant}
+      />
     </div>
   );
 };
