@@ -21,6 +21,16 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import queryClient from './providers/queryClient';
 import AvailableCamps from './pages/AvailableCamp/AvailableCamps';
 import DetailsPopularCamp from './components/PopularCamp/DetailsPopularCamp';
+import EditCamp from './pages/ManageCamp/EditCamp';
+import Analytics from './pages/ParticipantDashboard/Analytics';
+import ParticipantProfile from './pages/ParticipantDashboard/ParticipantProfile';
+import RegisteredCamps from './pages/ParticipantDashboard/RegisteredCamps';
+import PaymentHistory from './pages/ParticipantDashboard/PaymentHistory';
+import Payments from './pages/ParticipantDashboard/Payment/Payments';
+
+
+
+
 
 const router = createBrowserRouter([
   {
@@ -48,6 +58,10 @@ const router = createBrowserRouter([
         element:<DetailsPopularCamp></DetailsPopularCamp>
       },
       {
+        path:'editCamp/:id',
+        element:<EditCamp></EditCamp>,
+      },
+      {
         path: '*',
         element: <NotFound></NotFound>
       }
@@ -69,9 +83,30 @@ const router = createBrowserRouter([
         path: 'manageCamps/:email',
         element: <ManageCamps></ManageCamps>
       },
+      
       {
         path: 'manageRegisteredCamps',
         element: <ManageRegisteredCamps></ManageRegisteredCamps>
+      },
+      {
+        path:'analytics',
+        element:<Analytics></Analytics>,
+      },
+      {
+        path:'participantProfile',
+        element:<ParticipantProfile></ParticipantProfile>
+      },
+      {
+        path:'registeredCamps',
+        element:<RegisteredCamps></RegisteredCamps>
+      },
+      {
+        path:'paymentHistory',
+        element:<PaymentHistory></PaymentHistory>
+      },
+      {
+        path:'payment/:id',
+       element:<Payments></Payments>
       }
     ]
   }

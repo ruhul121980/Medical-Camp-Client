@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from 'react-router-dom';
 import { AuthContext } from "../../providers/AuthProvider";
+
 
 const fetchCamps = async (userEmail) => {
   const { data } = await axios.get(`http://localhost:5000/allCamp/${userEmail}`);
@@ -17,43 +18,61 @@ const ManageCamps = () => {
     queryFn: () => fetchCamps(user.email),
   });
 
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading camps</div>;
 
   return (
     <div>
       <h1 className="text-center text-purple-600 font-bold text-4xl my-10">
-        Popular Camps
+        Manage Camps
       </h1>
 
-      <div className="w-2/3 mx-auto grid grid-cols-2 gap-5">
-        {camps.map((camp) => (
-          <div key={camp._id}>
-            <div className="card w-96 glass">
-              <figure>
-                <img src={camp.image} alt="Camp!" />
-              </figure>
-              <div className="card-body">
-                <h2 className="card-title">{camp.name}</h2>
-                <p><span className="font-bold">Fees:</span> ${camp.fees}</p>
-                <p><span className="font-bold">Date & Time: </span>{camp.dateTime}</p>
-                <p><span className="font-bold">Location:</span> {camp.location}</p>
-                <p><span className="font-bold">Healthcare Professional:</span> {camp.healthcareProfessional}</p>
-                {/* <p><span className="font-bold">Description:</span> {camp.description}</p> */}
-                <p><span className="font-bold">Participant Count:</span> {camp.participantCount}</p>
-
-                <div className="card-actions justify-end">
-                  <Link to={`/popularDetails/${camp._id}`}>
-                    <button className="btn btn-primary">Details</button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
+      <div className="w-2/3 mx-auto">
+        <table className="min-w-full bg-white">
+          <thead>
+            <tr>
+              <th className="py-2 px-4 border-b">Name</th>
+              <th className="py-2 px-4 border-b">Date & Time</th>
+              <th className="py-2 px-4 border-b">Location</th>
+              <th className="py-2 px-4 border-b">Healthcare Professional</th>
+              <th className="py-2 px-4 border-b">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {camps.map((camp) => (
+              <tr key={camp._id}>
+                <td className="py-2 px-4 border-b">{camp.name}</td>
+                <td className="py-2 px-4 border-b">{camp.dateTime}</td>
+                <td className="py-2 px-4 border-b">{camp.location}</td>
+                <td className="py-2 px-4 border-b">{camp.healthcareProfessional}</td>
+                <td className="py-2 px-4 border-b">
+                <Link to={`/editCamp/${camp._id}`}>
+                <button className="btn btn-primary mr-2">Edit</button>
+              </Link>
+                  {/* <Link to={`/editCamp/${camp._id}`}>
+                    <button className="btn btn-primary mr-2">Edit</button>
+                  </Link> */}
+                  <button className="btn btn-danger" onClick={() => handleDelete(camp._id)}>Delete</button>
+                </td>
+                
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
+      
     </div>
   );
+};
+
+const handleDelete = async (campId) => {
+  try {
+    await axios.delete(`http://localhost:5000/deleteCamp/${campId}`);
+    // refetch the camps or update the state to remove the deleted camp
+  } catch (error) {
+    console.error("Error deleting camp:", error);
+  }
 };
 
 export default ManageCamps;

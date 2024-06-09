@@ -16,7 +16,7 @@ const DetailsPopularCamp = () => {
     queryFn: () => fetchCampDetails(id),
   });
 
-  // Sample logged in user information
+  
   const participant = {
     name: "John Doe",
     email: "john.doe@example.com"
