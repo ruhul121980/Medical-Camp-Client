@@ -13,8 +13,8 @@ const Analytics = () => {
         if (response.data.error) {
           console.error("Error fetching participant's registered camps data:", response.data.error);
         } else {
-          // Assuming response data is an object containing camp data
-          setCampData([response.data]);
+          console.log("API Response Data:", response.data); // Log the data received from the API
+          setCampData(response.data);
         }
       })
       .catch(error => {

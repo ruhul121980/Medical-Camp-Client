@@ -1,12 +1,10 @@
 import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
 import Swal from "sweetalert2";
-
-// import 'tailwindcss/tailwind.css';
 import { AuthContext } from '../../providers/AuthProvider';
 
 const RegistrationModal = ({ camp, isOpen, onRequestClose, participant }) => {
-    const { user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     age: '',
     phoneNumber: '',
@@ -18,49 +16,47 @@ const RegistrationModal = ({ camp, isOpen, onRequestClose, participant }) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
-  
-  const participantName=user.displayName;
-  const participantEmail=user.email;
 
-  
+  const participantName = user ? user.displayName : ''; // Check if user exists before accessing its properties
+  const participantEmail = user ? user.email : ''; // Check if user exists before accessing its properties
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission logic
-    const age=formData.age;
-  const phoneNumber=formData.phoneNumber;
-  const gender=formData.gender;
-  const emergencyContact=formData.emergencyContact;
-  const campName= camp.name;
-  const campFees =camp.fees;
-  const campLocation= camp.location;
-  const campHealthcareProfessional=camp.healthcareProfessional;
-  const paymentStatus='unpaid'
-  const confirmationStatus='pending'
-  console.log("now",camp._id)
-    const modalValues={age,phoneNumber,gender,emergencyContact,campName,campFees,campLocation,campHealthcareProfessional, participantName,participantEmail,paymentStatus,confirmationStatus}
+    const age = formData.age;
+    const phoneNumber = formData.phoneNumber;
+    const gender = formData.gender;
+    const emergencyContact = formData.emergencyContact;
+    const campName = camp.name;
+    const campFees = camp.fees;
+    const campLocation = camp.location;
+    const campHealthcareProfessional = camp.healthcareProfessional;
+    const paymentStatus = 'unpaid';
+    const confirmationStatus = 'pending';
+    console.log("now", camp._id)
+    const modalValues = { age, phoneNumber, gender, emergencyContact, campName, campFees, campLocation, campHealthcareProfessional, participantName, participantEmail, paymentStatus, confirmationStatus };
     console.log('Form Data:', formData);
 
-    fetch(`http://localhost:5000/modalData/${camp._id}`,{
-      method:'POST',
-      headers:{
-        'content-type':'application/json'
+    fetch(`http://localhost:5000/modalData/${camp._id}`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
       },
-      body:JSON.stringify(modalValues)
+      body: JSON.stringify(modalValues)
     })
-      .then(res=>res.json())
-      .then(data=>{
+      .then(res => res.json())
+      .then(data => {
         // console.log(data);
-        if(data.insertedId){
+        if (data.insertedId) {
           Swal.fire({
             icon: 'success',
             title: 'Success...',
             text: 'Added Successfully',
           });
-        //   form.reset();
+          //   form.reset();
         }
       })
-    
+
   };
 
   return (
@@ -108,7 +104,7 @@ const RegistrationModal = ({ camp, isOpen, onRequestClose, participant }) => {
             <label className="block text-sm font-medium text-gray-700">Participant Name:</label>
             <input
               type="text"
-              value={user.displayName}
+              value={participantName} // Use participantName variable
               readOnly
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md bg-gray-100"
             />
@@ -117,7 +113,7 @@ const RegistrationModal = ({ camp, isOpen, onRequestClose, participant }) => {
             <label className="block text-sm font-medium text-gray-700">Participant Email:</label>
             <input
               type="email"
-              value={user.email}
+              value={participantEmail} // Use participantEmail variable
               readOnly
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md bg-gray-100"
             />
