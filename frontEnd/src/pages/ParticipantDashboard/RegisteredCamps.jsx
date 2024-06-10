@@ -11,13 +11,10 @@ const fetchCamps = async (email) => {
   return data;
 };
 
-const cancelRegistration = async (campId) => {
-  await axios.delete(`http://localhost:5000/cancelRegistration/${campId}`);
-};
-
 const RegisteredCamps = () => {
   const { user, loading } = useContext(AuthContext);
   const queryClient = useQueryClient();
+  const [searchTerm, setSearchTerm] = useState("");
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
   const [selectedCamp, setSelectedCamp] = useState(null);
   const [feedback, setFeedback] = useState("");
@@ -45,15 +42,16 @@ const RegisteredCamps = () => {
   if (error) return <div>Error loading camps: {error.message}</div>;
 
   const handleCancel = (campId) => {
-    axios.delete(`http://localhost:5000/cancelRegistration/${campId}`)
-    .then(response => {
-      console.log('Item deleted:', response.data);
-      // Invalidate the query cache to trigger a refetch
-      queryClient.invalidateQueries(["camps", user.email]);
-    })
-    .catch(error => {
-      console.error('There was an error deleting the item!', error);
-    });
+    axios
+      .delete(`http://localhost:5000/cancelRegistration/${campId}`)
+      .then((response) => {
+        console.log("Item deleted:", response.data);
+        // Invalidate the query cache to trigger a refetch
+        queryClient.invalidateQueries(["camps", user.email]);
+      })
+      .catch((error) => {
+        console.error("There was an error deleting the item!", error);
+      });
   };
 
   const handleFeedbackClick = (camp) => {
@@ -70,25 +68,49 @@ const RegisteredCamps = () => {
 
   const handleFeedbackSubmit = () => {
     // Example POST request to submit feedback and rating
-    axios.post(`http://localhost:5000/submitFeedback`, {
-      campName: selectedCamp.campName,
-      feedback,
-      rating
-    }).then(response => {
-      console.log('Feedback submitted:', response.data);
-      closeModal();
-      // Optionally refetch the camps to update UI
-      queryClient.invalidateQueries(["camps", user.email]);
-    }).catch(error => {
-      console.error('There was an error submitting feedback!', error);
-    });
+    axios
+      .post(`http://localhost:5000/submitFeedback`, {
+        campName: selectedCamp.campName,
+        feedback,
+        rating,
+      })
+      .then((response) => {
+        console.log("Feedback submitted:", response.data);
+        closeModal();
+        // Optionally refetch the camps to update UI
+        queryClient.invalidateQueries(["camps", user.email]);
+      })
+      .catch((error) => {
+        console.error("There was an error submitting feedback!", error);
+      });
   };
+
+  // Filter camps based on search term
+  // Filter camps based on search term
+const filteredCamps = camps.filter(
+  (camp) =>
+    camp.campName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    camp.date?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    camp.healthcareProfessionalName?.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
 
   return (
     <div>
       <h1 className="text-center text-purple-600 font-bold text-4xl my-10">
         Registered Camps
       </h1>
+      {/* Search input */}
+      <div className="w-3/4 mx-auto mb-4">
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full p-2 border rounded"
+        />
+      </div>
+      {/* Table */}
       <div className="w-3/4 mx-auto">
         <table className="min-w-full bg-white border border-gray-200">
           <thead>
@@ -97,12 +119,14 @@ const RegisteredCamps = () => {
               <th className="py-2 px-4 border-b">Camp Fees</th>
               <th className="py-2 px-4 border-b">Participant Name</th>
               <th className="py-2 px-4 border-b">Payment</th>
-              <th className="py-2 px-4 border-b">Payment Confirmation Status</th>
+              <th className="py-2 px-4 border-b">
+                Payment Confirmation Status
+              </th>
               <th className="py-2 px-4 border-b">Actions</th>
             </tr>
           </thead>
           <tbody>
-            {camps.map((camp) => (
+            {filteredCamps.map((camp) => (
               <tr key={camp._id}>
                 <td className="py-2 px-4 border-b">{camp.campName}</td>
                 <td className="py-2 px-4 border-b">{camp.campFees}</td>
@@ -147,12 +171,14 @@ const RegisteredCamps = () => {
           </tbody>
         </table>
       </div>
+      {/* Feedback Modal */}
       {isFeedbackModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-8 rounded shadow-lg">
             <h2 className="text-xl mb-4">Feedback for {selectedCamp.campName}</h2>
             <textarea
-              className="w-full p-2 border rounded mb-4"
+              className="w-full p-2 border
+              rounded mb-4"
               rows="4"
               placeholder="Your feedback"
               value={feedback}
