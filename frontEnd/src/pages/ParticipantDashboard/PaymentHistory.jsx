@@ -90,7 +90,7 @@ const PaymentHistory = () => {
                   {camp.confirmationStatus}
                 </td>
                 <td className="py-2 px-4 border-b">
-                  <div className="flex">
+                  {/* <div className="flex">
                     <button className="mr-2 bg-blue-500 text-white px-4 py-2 rounded">
                       Feedback
                     </button>
@@ -101,7 +101,7 @@ const PaymentHistory = () => {
                     >
                       Cancel
                     </button>
-                  </div>
+                  </div> */}
                 </td>
               </tr>
             ))}

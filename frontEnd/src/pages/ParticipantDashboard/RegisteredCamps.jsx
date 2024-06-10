@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import axios from "axios";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "../../providers/AuthProvider";
 import { Link } from "react-router-dom";
 
@@ -20,6 +20,8 @@ const RegisteredCamps = () => {
   const queryClient = useQueryClient();
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
   const [selectedCamp, setSelectedCamp] = useState(null);
+  const [feedback, setFeedback] = useState("");
+  const [rating, setRating] = useState(0);
 
   if (loading) {
     return <div>Loading user information...</div>;
@@ -62,6 +64,24 @@ const RegisteredCamps = () => {
   const closeModal = () => {
     setIsFeedbackModalOpen(false);
     setSelectedCamp(null);
+    setFeedback("");
+    setRating(0);
+  };
+
+  const handleFeedbackSubmit = () => {
+    // Example POST request to submit feedback and rating
+    axios.post(`http://localhost:5000/submitFeedback`, {
+      campName: selectedCamp.campName,
+      feedback,
+      rating
+    }).then(response => {
+      console.log('Feedback submitted:', response.data);
+      closeModal();
+      // Optionally refetch the camps to update UI
+      queryClient.invalidateQueries(["camps", user.email]);
+    }).catch(error => {
+      console.error('There was an error submitting feedback!', error);
+    });
   };
 
   return (
@@ -131,10 +151,29 @@ const RegisteredCamps = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-8 rounded shadow-lg">
             <h2 className="text-xl mb-4">Feedback for {selectedCamp.campName}</h2>
-            <textarea className="w-full p-2 border rounded mb-4" rows="4" placeholder="Your feedback"></textarea>
+            <textarea
+              className="w-full p-2 border rounded mb-4"
+              rows="4"
+              placeholder="Your feedback"
+              value={feedback}
+              onChange={(e) => setFeedback(e.target.value)}
+            ></textarea>
+            <div className="mb-4">
+              <label className="block mb-2">Rating</label>
+              <select
+                className="w-full p-2 border rounded"
+                value={rating}
+                onChange={(e) => setRating(Number(e.target.value))}
+              >
+                <option value={0}>Select Rating</option>
+                {[1, 2, 3, 4, 5].map((value) => (
+                  <option key={value} value={value}>{value}</option>
+                ))}
+              </select>
+            </div>
             <div className="flex justify-end">
               <button className="bg-gray-500 text-white px-4 py-2 rounded mr-2" onClick={closeModal}>Cancel</button>
-              <button className="bg-blue-500 text-white px-4 py-2 rounded">Submit</button>
+              <button className="bg-blue-500 text-white px-4 py-2 rounded" onClick={handleFeedbackSubmit}>Submit</button>
             </div>
           </div>
         </div>
