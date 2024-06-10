@@ -15,20 +15,35 @@ export default function Register() {
     const email = e.target.email.value;
     const password = e.target.password.value;
     const photoURL = e.target.imageUrl.value;
+    const contactNumber = e.target.contactNumber.value;
+    const address = e.target.address.value;
 
-    // Validate password length
     if (password.length < 6) {
       Swal.fire({
         icon: 'error',
         title: 'Password Validation Error',
         text: 'Password must be at least 6 characters long.',
       });
-      setLoading(false); // Stop further processing if password is invalid
+      setLoading(false);
       return;
     }
 
     try {
       await createUser(email, password, name, photoURL);
+      
+      // Send data to the backend to store in MongoDB
+      const response = await fetch('http://localhost:5000/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, photoURL, contactNumber, address }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to store user data in MongoDB');
+      }
+
       Swal.fire({
         icon: 'success',
         title: 'Registration Successful!',
@@ -83,6 +98,18 @@ export default function Register() {
                 <span className="label-text">Image URL</span>
               </label>
               <input type="text" placeholder="Image URL" name="imageUrl" required className="input input-bordered" />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Contact Number</span>
+              </label>
+              <input type="text" placeholder="Contact Number" name="contactNumber" required className="input input-bordered" />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Address</span>
+              </label>
+              <input type="text" placeholder="Address" name="address" required className="input input-bordered" />
             </div>
             <div className="form-control mt-6">
               <button type="submit" className={`btn btn-primary ${loading ? 'loading' : ''}`} disabled={loading}>

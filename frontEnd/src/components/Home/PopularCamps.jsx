@@ -33,7 +33,7 @@ const PopularCamps = () => {
           <div key={camp._id}>
             <div className="card w-96 glass">
               <figure>
-                <img src="camp.image" alt="Camp!" />
+                <img src={camp.image} alt="Camp!" />
               </figure>
               <div className="card-body">
                 <h2 className="card-title">{camp.name}</h2>

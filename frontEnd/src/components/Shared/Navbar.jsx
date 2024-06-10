@@ -1,10 +1,28 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
+import axios from 'axios'; // Corrected import statement
 
 export default function Navbar() {
   const { user, logOut } = useContext(AuthContext);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [participantInfo, setParticipantInfo] = useState(null);
+  
+  useEffect(() => {
+    // Fetch user info when component mounts
+    if (user) {
+      axios.get(`http://localhost:5000/participantInfo/${user.email}`)
+        .then(response => {
+          // Handle successful response
+          console.log('Response data:', response.data);
+          setParticipantInfo(response.data); // Update state with fetched data
+        })
+        .catch(error => {
+          // Handle error
+          console.error('Error fetching data:', error);
+        });
+    }
+  }, [user]);
 
   const handleLogout = () => {
     logOut()
@@ -12,18 +30,9 @@ export default function Navbar() {
       .catch((error) => console.error(error));
   };
 
-  // const handleDashboard = () => {
-  //     console.log("clicked dashboard");
-  //     <>
-  //
-  //     </>
-  // };
-
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-
-  const userPhotoURL = user && user.photoURL;
 
   const navLinks = (
     <>
@@ -82,17 +91,17 @@ export default function Navbar() {
           <ul className="menu menu-horizontal px-1">{navLinks}</ul>
         </div>
         <div className="flex items-center relative">
-          {user && (
+          {user && participantInfo && (
             <div className="relative" onClick={toggleDropdown}>
               <img
-                src={userPhotoURL}
+                src={participantInfo.photoURL}
                 alt="User profile"
                 className="w-8 h-8 rounded-full cursor-pointer"
               />
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg p-2 z-50">
                   <div className="px-4 py-2 border-b border-gray-200">
-                    {user.displayName}
+                    {participantInfo.name}
                   </div>
 
                   <Link to="/dashboard/organizerProfile">
