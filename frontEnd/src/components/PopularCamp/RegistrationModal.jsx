@@ -35,8 +35,10 @@ const RegistrationModal = ({ camp, isOpen, onRequestClose, participant }) => {
   const campFees =camp.fees;
   const campLocation= camp.location;
   const campHealthcareProfessional=camp.healthcareProfessional;
+  const paymentStatus='unpaid'
+  const confirmationStatus='pending'
   console.log("now",camp._id)
-    const modalValues={age,phoneNumber,gender,emergencyContact,campName,campFees,campLocation,campHealthcareProfessional, participantName,participantEmail}
+    const modalValues={age,phoneNumber,gender,emergencyContact,campName,campFees,campLocation,campHealthcareProfessional, participantName,participantEmail,paymentStatus,confirmationStatus}
     console.log('Form Data:', formData);
 
     fetch(`http://localhost:5000/modalData/${camp._id}`,{

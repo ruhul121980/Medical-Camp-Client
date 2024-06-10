@@ -3,11 +3,14 @@ import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import { AuthContext } from '../../../providers/AuthProvider';
 
-const CheckoutForm = ({ campFees }) => {
+const CheckoutForm = ({ camps }) => {
+    const campFees=camps.campFees;
+    const id=camps._id;
+    console.log('camps now',camps)
     const { user } = useContext(AuthContext);
     const [error, setError] = useState('');
     const [clientSecret, setClientSecret] = useState('');
-    const [transactionId,setTransactionId]=useState('')
+    const [transactionId, setTransactionId] = useState('');
     const stripe = useStripe();
     const elements = useElements();
 
@@ -28,6 +31,9 @@ const CheckoutForm = ({ campFees }) => {
                     body: JSON.stringify({ campFees })
                 });
                 const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to create payment intent');
+                }
                 setClientSecret(data.clientSecret);
             } catch (error) {
                 console.error('Error creating payment intent:', error);
@@ -79,11 +85,26 @@ const CheckoutForm = ({ campFees }) => {
             setError(confirmError.message);
         } else {
             console.log('Payment intent', paymentIntent);
-            if(paymentIntent==='succeeded'){
-                console.log('transaction id',paymentIntent.id)
-                setTransactionId(paymentIntent.id)
+            if (paymentIntent.status === 'succeeded') {
+                console.log('transaction id', paymentIntent.id);
+                setTransactionId(paymentIntent.id);
+
+                const payment = {
+                    email: user.email,
+                    campFees: campFees,
+                    transactionId: paymentIntent.id,
+                    date: new Date(),
+                    status: 'paid',
+                    id:id
+                };
+                try {
+                    const res = await axios.post('http://localhost:5000/paymentHistory', payment);
+                    console.log('payment saved', res);
+                } catch (err) {
+                    console.error('Error saving payment:', err);
+                    setError('Error saving payment');
+                }
             }
-            // You can handle successful payment here (e.g., show a success message, save transaction details, etc.)
         }
     };
 

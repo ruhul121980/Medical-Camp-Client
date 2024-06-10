@@ -46,7 +46,7 @@ export default function Payments() {
       {console.log(camps)}
       <div>
         <Elements stripe={stripePromise}>
-          <CheckoutForm key={camps._id} campFees={camps.campFees}
+          <CheckoutForm key={camps._id} camps={camps}
  />
         </Elements>
       </div>
