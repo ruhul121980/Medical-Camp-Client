@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "../../providers/AuthProvider";
@@ -18,8 +18,8 @@ const cancelRegistration = async (campId) => {
 const RegisteredCamps = () => {
   const { user, loading } = useContext(AuthContext);
   const queryClient = useQueryClient();
-
- 
+  const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false);
+  const [selectedCamp, setSelectedCamp] = useState(null);
 
   if (loading) {
     return <div>Loading user information...</div>;
@@ -52,6 +52,16 @@ const RegisteredCamps = () => {
     .catch(error => {
       console.error('There was an error deleting the item!', error);
     });
+  };
+
+  const handleFeedbackClick = (camp) => {
+    setSelectedCamp(camp);
+    setIsFeedbackModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsFeedbackModalOpen(false);
+    setSelectedCamp(null);
   };
 
   return (
@@ -95,9 +105,14 @@ const RegisteredCamps = () => {
                 </td>
                 <td className="py-2 px-4 border-b">
                   <div className="flex">
-                    <button className="mr-2 bg-blue-500 text-white px-4 py-2 rounded">
-                      Feedback
-                    </button>
+                    {camp.paymentStatus === "paid" && camp.confirmationStatus === "Confirmed" && (
+                      <button 
+                        className="mr-2 bg-blue-500 text-white px-4 py-2 rounded" 
+                        onClick={() => handleFeedbackClick(camp)}
+                      >
+                        Feedback
+                      </button>
+                    )}
                     <button
                       className={`bg-red-500 text-white px-4 py-2 rounded ${camp.paymentStatus === "paid" ? "opacity-50 cursor-not-allowed" : ""}`}
                       onClick={() => handleCancel(camp._id)}
@@ -112,6 +127,18 @@ const RegisteredCamps = () => {
           </tbody>
         </table>
       </div>
+      {isFeedbackModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-8 rounded shadow-lg">
+            <h2 className="text-xl mb-4">Feedback for {selectedCamp.campName}</h2>
+            <textarea className="w-full p-2 border rounded mb-4" rows="4" placeholder="Your feedback"></textarea>
+            <div className="flex justify-end">
+              <button className="bg-gray-500 text-white px-4 py-2 rounded mr-2" onClick={closeModal}>Cancel</button>
+              <button className="bg-blue-500 text-white px-4 py-2 rounded">Submit</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
