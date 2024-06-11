@@ -11,6 +11,11 @@ const fetchCamps = async (email) => {
   return data;
 };
 
+const fetchParticipantCount = async (email) => {
+  const { data } = await axios.get(`http://localhost:5000/registeredCampInfo/${email}`);
+  return data.length; 
+};
+
 const RegisteredCamps = () => {
   const { user, loading } = useContext(AuthContext);
   const queryClient = useQueryClient();
@@ -19,6 +24,22 @@ const RegisteredCamps = () => {
   const [selectedCamp, setSelectedCamp] = useState(null);
   const [feedback, setFeedback] = useState("");
   const [rating, setRating] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
+  
+  const itemsPerPage = 10;
+  const {
+    data: totalCount = 0, // default value to avoid undefined issues
+    error: countError,
+    isLoading: countLoading,
+  } = useQuery({
+    queryKey: ["totalCount", user?.email],
+    queryFn: () => fetchParticipantCount(user.email),
+    enabled: !!user?.email,
+  });
+
+  const count = totalCount || 0;
+  const numberOfPages = Math.ceil(count / itemsPerPage);
+  const pages = Array.from({ length: numberOfPages }, (_, i) => i);
 
   if (loading) {
     return <div>Loading user information...</div>;
@@ -29,7 +50,7 @@ const RegisteredCamps = () => {
   }
 
   const {
-    data: camps,
+    data: camps = [],
     error,
     isLoading,
   } = useQuery({
@@ -48,6 +69,7 @@ const RegisteredCamps = () => {
         console.log("Item deleted:", response.data);
         // Invalidate the query cache to trigger a refetch
         queryClient.invalidateQueries(["camps", user.email]);
+        queryClient.invalidateQueries(["totalCount", user.email]);
       })
       .catch((error) => {
         console.error("There was an error deleting the item!", error);
@@ -86,14 +108,23 @@ const RegisteredCamps = () => {
   };
 
   // Filter camps based on search term
-  // Filter camps based on search term
-const filteredCamps = camps.filter(
-  (camp) =>
-    camp.campName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    camp.date?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    camp.healthcareProfessionalName?.toLowerCase().includes(searchTerm.toLowerCase())
-);
+  const filteredCamps = camps.filter(
+    (camp) =>
+      camp.campName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      camp.date?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      camp.healthcareProfessionalName?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
+  // Pagination logic
+  const paginatedCamps = filteredCamps.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+
+  const handlePrevious = () => {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 0));
+  };
+
+  const handleNext = () => {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, numberOfPages - 1));
+  };
 
   return (
     <div>
@@ -126,7 +157,7 @@ const filteredCamps = camps.filter(
             </tr>
           </thead>
           <tbody>
-            {filteredCamps.map((camp) => (
+            {paginatedCamps.map((camp) => (
               <tr key={camp._id}>
                 <td className="py-2 px-4 border-b">{camp.campName}</td>
                 <td className="py-2 px-4 border-b">{camp.campFees}</td>
@@ -170,8 +201,35 @@ const filteredCamps = camps.filter(
             ))}
           </tbody>
         </table>
+        <div className="flex justify-center my-4">
+          <button
+            onClick={handlePrevious}
+            className="btn btn-sm mx-2"
+            disabled={currentPage === 0}
+          >
+            Previous
+          </button>
+          {pages.map((page) => (
+            <button
+              onClick={() => setCurrentPage(page)}
+              className="btn btn-sm mx-2"
+              key={page}
+              disabled={currentPage === page}
+            >
+              {page + 1}
+            </button>
+          ))}
+          <button
+            onClick={handleNext}
+            className="btn btn-sm mx-2"
+            disabled={currentPage === numberOfPages - 1}
+          >
+            Next
+          </button>
+        </div>
       </div>
       {/* Feedback Modal */}
+
       {isFeedbackModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-8 rounded shadow-lg">
@@ -204,6 +262,7 @@ const filteredCamps = camps.filter(
           </div>
         </div>
       )}
+      
     </div>
   );
 };
