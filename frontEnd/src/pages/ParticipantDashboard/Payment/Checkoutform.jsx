@@ -4,9 +4,9 @@ import axios from 'axios';
 import { AuthContext } from '../../../providers/AuthProvider';
 
 const CheckoutForm = ({ camps }) => {
-    const campFees=camps.campFees;
-    const id=camps._id;
-    console.log('camps now',camps)
+    const campFees = camps.campFees;
+    const id = camps._id;
+    console.log('camps now', camps);
     const { user } = useContext(AuthContext);
     const [error, setError] = useState('');
     const [clientSecret, setClientSecret] = useState('');
@@ -95,7 +95,7 @@ const CheckoutForm = ({ camps }) => {
                     transactionId: paymentIntent.id,
                     date: new Date(),
                     status: 'paid',
-                    id:id
+                    id: id
                 };
                 try {
                     const res = await axios.post('http://localhost:5000/paymentHistory', payment);
@@ -109,26 +109,35 @@ const CheckoutForm = ({ camps }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <CardElement
-                options={{
-                    style: {
-                        base: {
-                            fontSize: '16px',
-                            color: '#424770',
-                            '::placeholder': {
-                                color: '#aab7c4',
+        <form onSubmit={handleSubmit} className="max-w-lg mx-auto p-4">
+            <div className="mb-4">
+                <CardElement
+                    className="p-2 border border-gray-300 rounded"
+                    options={{
+                        style: {
+                            base: {
+                                fontSize: '18px',
+                                color: '#424770',
+                                '::placeholder': {
+                                    color: '#aab7c4',
+                                },
+                            },
+                            invalid: {
+                                color: '#9e2146',
                             },
                         },
-                        invalid: {
-                            color: '#9e2146',
-                        },
-                    },
-                }}
-            />
-            <button className='btn btn-sm btn-primary my-4' type="submit" disabled={!stripe || !clientSecret}>
-                Pay
-            </button>
+                    }}
+                />
+            </div>
+            <div className="flex flex-col sm:flex-row sm:space-x-4">
+                <button 
+                    className='btn btn-sm btn-primary my-2 sm:my-0 sm:mr-2' 
+                    type="submit" 
+                    disabled={!stripe || !clientSecret}
+                >
+                    Pay
+                </button>
+            </div>
             {error && <p className='text-red-600'>{error}</p>}
             {transactionId && <p className='text-green-600'>Your Transaction Id : {transactionId}</p>}
         </form>

@@ -5,13 +5,12 @@ import { useQuery } from '@tanstack/react-query';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 
-
-
 import { AuthContext } from '../../../providers/AuthProvider';
-import CheckoutForm from './Checkoutform';
+
 
 // Hard-coded Stripe public key
-const stripePromise = loadStripe('pk_test_51PPO2h04OyLT3GzboqRlfYoEY1d5oDym7jV09EgiT6K16tspLkzeRz9Q93QxSMgXQvRADnIQijakKsJFzaber7eQ00y9TWQ5kV');
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
+import CheckoutForm from './Checkoutform';
 
 const fetchCamps = async (id) => {
   const { data } = await axios.get(`http://localhost:5000/getFees/${id}`);
@@ -20,15 +19,14 @@ const fetchCamps = async (id) => {
 
 export default function Payments() {
   const { id } = useParams();
-  console.log(id)
   const { user, loading } = useContext(AuthContext);
 
   if (loading) {
-    return <div>Loading user information...</div>;
+    return <div className="flex justify-center items-center h-screen">Loading user information...</div>;
   }
 
   if (!user || !user.email) {
-    return <div>Please log in to make a payment.</div>;
+    return <div className="flex justify-center items-center h-screen">Please log in to make a payment.</div>;
   }
 
   const { data: camps, error, isLoading } = useQuery({
@@ -37,17 +35,17 @@ export default function Payments() {
     enabled: !!id,
   });
 
-  if (isLoading) return <div>Loading camp fees...</div>;
-  if (error) return <div>Error loading camp fees: {error.message}</div>;
+  if (isLoading) return <div className="flex justify-center items-center h-screen">Loading camp fees...</div>;
+  if (error) return <div className="flex justify-center items-center h-screen">Error loading camp fees: {error.message}</div>;
 
   return (
-    <div>
-      <h2>Pay First</h2>
-      {console.log(camps)}
-      <div>
+    <div className="container mx-auto px-4">
+      <h1 className="text-center text-purple-600 font-bold text-2xl sm:text-3xl md:text-4xl my-10">
+        Pay First
+      </h1>
+      <div className="">
         <Elements stripe={stripePromise}>
-          <CheckoutForm key={camps._id} camps={camps}
- />
+          <CheckoutForm key={camps._id} camps={camps} />
         </Elements>
       </div>
     </div>

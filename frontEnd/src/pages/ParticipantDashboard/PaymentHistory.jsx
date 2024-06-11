@@ -100,7 +100,7 @@ const PaymentHistory = () => {
               <th className="py-2 px-4 border-b">Camp Name</th>
               <th className="py-2 px-4 border-b">Camp Fees</th>
               <th className="py-2 px-4 border-b">Payment</th>
-              <th className="py-2 px-4 border-b">Payment Confirmation Status</th>
+              <th className="py-2 px-4 border-b">Confirmation Status</th>
             </tr>
           </thead>
           <tbody>

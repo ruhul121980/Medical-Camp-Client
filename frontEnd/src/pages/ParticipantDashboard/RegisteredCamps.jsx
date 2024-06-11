@@ -151,7 +151,7 @@ const RegisteredCamps = () => {
               <th className="py-2 px-4 border-b">Participant Name</th>
               <th className="py-2 px-4 border-b">Payment</th>
               <th className="py-2 px-4 border-b">
-                Payment Confirmation Status
+                Confirmation Status
               </th>
               <th className="py-2 px-4 border-b">Actions</th>
             </tr>
