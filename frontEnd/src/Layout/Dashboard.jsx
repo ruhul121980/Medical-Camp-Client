@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import { AuthContext } from "../providers/AuthProvider";
+import Navbar from './../components/Shared/Navbar';
 
 export default function Dashboard() {
   const { user, loading } = useContext(AuthContext);
@@ -16,7 +17,10 @@ export default function Dashboard() {
   const isAdmin = user.email === 'admin@gmail.com';
 
   return (
-    <div className="flex">
+   <div>
+    <Navbar></Navbar>
+     <div className="flex">
+      
       {/* dashboard sidebar */}
       <div className="w-64 min-h-screen bg-purple-800 text-white font-bold">
         <ul className="menu">
@@ -70,5 +74,6 @@ export default function Dashboard() {
         <Outlet />
       </div>
     </div>
+   </div>
   );
 }

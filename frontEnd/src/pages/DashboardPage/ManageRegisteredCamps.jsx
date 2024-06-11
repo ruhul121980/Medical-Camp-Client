@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "../../providers/AuthProvider";
@@ -17,8 +17,12 @@ const updateConfirmationStatus = async (campId) => {
 };
 
 const ManageRegisteredCamps = () => {
-  const { user, loading } = useContext(AuthContext);
+  const { user, loading: authLoading } = useContext(AuthContext);
   const queryClient = useQueryClient();
+
+  const [currentPage, setCurrentPage] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const itemsPerPage = 10;
 
   const { data: camps, error, isLoading } = useQuery({
     queryKey: ["camps"],
@@ -51,10 +55,30 @@ const ManageRegisteredCamps = () => {
     confirmationMutation.mutate(campId);
   };
 
-  if (loading) return <div>Loading user information...</div>;
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+    setCurrentPage(0); // Reset to the first page on search
+  };
+
+  if (authLoading) return <div>Loading user information...</div>;
   if (!user || !user.email) return <div>Please log in to view registered camps.</div>;
   if (isLoading) return <div>Loading camps...</div>;
   if (error) return <div>Error loading camps: {error.message}</div>;
+
+  const filteredCamps = camps.filter((camp) => {
+    const campName = camp.campName?.toLowerCase() || "";
+    const date = camp.date?.toLowerCase() || "";
+    const healthcareProfessionalName = camp.healthcareProfessionalName?.toLowerCase() || "";
+    const search = searchTerm.toLowerCase();
+    return (
+      campName.includes(search) ||
+      date.includes(search) ||
+      healthcareProfessionalName.includes(search)
+    );
+  });
+
+  const paginatedCamps = filteredCamps.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage);
+  const numberOfPages = Math.ceil(filteredCamps.length / itemsPerPage);
 
   return (
     <div>
@@ -62,6 +86,13 @@ const ManageRegisteredCamps = () => {
         Registered Camps
       </h1>
       <div className="w-3/4 mx-auto">
+        <input
+          type="text"
+          placeholder="Search by Camp Name"
+          value={searchTerm}
+          onChange={handleSearch}
+          className="w-full mb-4 px-4 py-2 border border-gray-300 rounded"
+        />
         <table className="min-w-full bg-white border border-gray-200">
           <thead>
             <tr>
@@ -74,7 +105,7 @@ const ManageRegisteredCamps = () => {
             </tr>
           </thead>
           <tbody>
-            {camps.map((camp) => (
+            {paginatedCamps.map((camp) => (
               <tr key={camp._id}>
                 <td className="py-2 px-4 border-b">{camp.campName}</td>
                 <td className="py-2 px-4 border-b">{camp.campFees}</td>
@@ -103,6 +134,31 @@ const ManageRegisteredCamps = () => {
             ))}
           </tbody>
         </table>
+        <div className="flex justify-center my-4">
+          <button
+            onClick={() => setCurrentPage((prevPage) => Math.max(prevPage - 1, 0))}
+            className="btn btn-sm mx-2"
+            disabled={currentPage === 0}
+          >
+            Previous
+          </button>
+          {[...Array(numberOfPages).keys()].map((page) => (
+            <button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={`btn btn-sm mx-2 ${currentPage === page ? "bg-blue-500 text-white" : ""}`}
+            >
+              {page + 1}
+            </button>
+          ))}
+          <button
+            onClick={() => setCurrentPage((prevPage) => Math.min(prevPage + 1, numberOfPages - 1))}
+            className="btn btn-sm mx-2"
+            disabled={currentPage === numberOfPages - 1}
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );
