@@ -75,9 +75,9 @@ const ManageCamps = () => {
   };
 
   return (
-    <div>
+    <div className="overflow-x-auto">
       <h1 className="text-center text-purple-600 font-bold text-4xl my-10">Manage Camps</h1>
-      <div className="w-2/3 mx-auto">
+      <div className="w-full sm:w-3/2 text-xs lg:text-base mx-auto">
         <input
           type="text"
           placeholder="Search by Camp Name, Location, or Healthcare Professional"
@@ -88,21 +88,21 @@ const ManageCamps = () => {
         <table className="min-w-full bg-white">
           <thead>
             <tr>
-              <th className="py-2 px-4 border-b">Name</th>
-              <th className="py-2 px-4 border-b">Date & Time</th>
-              <th className="py-2 px-4 border-b">Location</th>
-              <th className="py-2 px-4 border-b">Healthcare Professional</th>
-              <th className="py-2 px-4 border-b">Actions</th>
+              <th className="py-2 px-1 lg:px-4 border-b">Name</th>
+              <th className="py-2 px-1 lg:px-4 border-b">Date & Time</th>
+              <th className="py-2 px-1 lg:px-4 border-b">Location</th>
+              <th className="py-2 px-1 lg:px-4 border-b">Healthcare Professional</th>
+              <th className="py-2 px-1 lg:px-4 border-b">Actions</th>
             </tr>
           </thead>
           <tbody>
             {paginatedCamps.map((camp) => (
               <tr key={camp._id}>
-                <td className="py-2 px-4 border-b">{camp.name}</td>
-                <td className="py-2 px-4 border-b">{camp.dateTime}</td>
-                <td className="py-2 px-4 border-b">{camp.location}</td>
-                <td className="py-2 px-4 border-b">{camp.healthcareProfessional}</td>
-                <td className="py-2 px-4 border-b flex">
+                <td className="py-2 px-1 lg:px-4 border-b">{camp.name}</td>
+                <td className="py-2 px-1 lg:px-4 border-b">{camp.dateTime}</td>
+                <td className="py-2 px-1 lg:px-4 border-b">{camp.location}</td>
+                <td className="py-2 px-1 lg:px-4 border-b">{camp.healthcareProfessional}</td>
+                <td className="py-2 px-1 lg:px-4 border-0 lg:flex">
                   <Link to={`/editCamp/${camp._id}`}>
                     <button className="btn btn-primary mr-2">Edit</button>
                   </Link>

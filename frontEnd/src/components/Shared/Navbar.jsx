@@ -84,6 +84,7 @@ export default function Navbar() {
               {navLinks}
             </ul>
           </div>
+          <div><Link to="/"><img className="w-12 h-12" src="https://i.ibb.co/ykFNrkp/Green-and-Orange-Flat-Illustrative-Medical-Care-Healthy-Logo.png" alt="" /></Link></div>
           <Link to="/" className="btn btn-ghost text-xl">
             CampCare360
           </Link>
@@ -95,14 +96,14 @@ export default function Navbar() {
           {user && participantInfo && (
             <div className="relative" onClick={toggleDropdown}>
               <img
-                src={participantInfo.photoURL}
+                src={participantInfo.photoURL ||user.photoURL}
                 alt="User profile"
                 className="w-8 h-8 rounded-full cursor-pointer"
               />
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg p-2 z-50">
                   <div className="px-4 py-2 border-b border-gray-200">
-                    {participantInfo.name}
+                    {participantInfo.name || user.displayName}
                   </div>
                   <Link to={isAdmin ? "/dashboard/organizerProfile" : "/dashboard/analytics"}>
                     <button className="w-full text-left px-4 py-2 hover:bg-gray-100">

@@ -3,7 +3,7 @@ import axios from 'axios';
 import React from 'react';
 
 const fetchFeedback = async () => {
-  const { data } = await axios.get("http://localhost:5000/feedback");
+  const { data } = await axios.get("https://medicamp-eight.vercel.app/feedback");
   return data;
 };
 

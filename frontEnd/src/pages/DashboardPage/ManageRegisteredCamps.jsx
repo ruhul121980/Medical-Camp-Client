@@ -85,10 +85,10 @@ const ManageRegisteredCamps = () => {
       <h1 className="text-center text-purple-600 font-bold text-4xl my-10">
         Registered Camps
       </h1>
-      <div className="w-3/4 mx-auto">
+      <div className="w-full lg:w-3/4 mx-auto text-xs lg:text-base">
         <input
           type="text"
-          placeholder="Search by Camp Name"
+          placeholder="Search by Camp Nam px-1elg:"
           value={searchTerm}
           onChange={handleSearch}
           className="w-full mb-4 px-4 py-2 border border-gray-300 rounded"
@@ -96,23 +96,23 @@ const ManageRegisteredCamps = () => {
         <table className="min-w-full bg-white border border-gray-200">
           <thead>
             <tr>
-              <th className="py-2 px-4 border-b">Camp Name</th>
-              <th className="py-2 px-4 border-b">Camp Fees</th>
-              <th className="py-2 px-4 border-b">Participant Name</th>
-              <th className="py-2 px-4 border-b">Payment Status</th>
-              <th className="py-2 px-4 border-b">Confirmation Status</th>
-              <th className="py-2 px-4 border-b">Actions</th>
+              <th className="py-2 px-1 lg:px-4 border-b">Camp Name</th>
+              <th className="py-2 px-1 lg:px-4 border-b">Camp Fees</th>
+              <th className="py-2 px-1 lg:px-4 border-b">Participant Name</th>
+              <th className="py-2 px-1 lg:px-4 border-b">Payment Status</th>
+              <th className="py-2 px-1 lg:px-4 border-b">Confirmation Status</th>
+              <th className="py-2 px-1 lg:px-4 border-b">Actions</th>
             </tr>
           </thead>
           <tbody>
             {paginatedCamps.map((camp) => (
-              <tr key={camp._id}>
-                <td className="py-2 px-4 border-b">{camp.campName}</td>
-                <td className="py-2 px-4 border-b">{camp.campFees}</td>
-                <td className="py-2 px-4 border-b">{camp.participantName}</td>
-                <td className="py-2 px-4 border-b">{camp.paymentStatus}</td>
-                <td className="py-2 px-4 border-b">{camp.confirmationStatus}</td>
-                <td className="py-2 px-4 border-b">
+              <tr key={camp._id} >
+                <td className="py-2 px-1 lg:px-4 border-b">{camp.campName}</td>
+                <td className="py-2 px-1 lg:px-4 border-b">{camp.campFees}</td>
+                <td className="py-2 px-1 lg:px-4 border-b">{camp.participantName}</td>
+                <td className="py-2 px-1 lg:px-4 border-b">{camp.paymentStatus}</td>
+                <td className="py-2 px-1 lg:px-4 border-b">{camp.confirmationStatus}</td>
+                <td className="py-2 px-1 lg:px-4 border-b">
                   {camp.paymentStatus === "paid" && camp.confirmationStatus === "pending" && (
                     <button
                       className="bg-yellow-500 text-white px-4 py-2 rounded"

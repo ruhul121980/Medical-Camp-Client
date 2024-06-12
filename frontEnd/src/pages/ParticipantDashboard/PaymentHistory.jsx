@@ -85,7 +85,7 @@ const PaymentHistory = () => {
       <h1 className="text-center text-purple-600 font-bold text-4xl my-10">
         Payment History
       </h1>
-      <div className="w-3/4 mx-auto">
+      <div className="w-3/4 mx-auto text-xs lg:text-base">
         <input
           type="text"
           placeholder="Search by Camp Name"
@@ -94,21 +94,21 @@ const PaymentHistory = () => {
           className="w-full mb-4 px-4 py-2 border border-gray-300 rounded"
         />
         {/* <p>Total Camps: {filteredCamps.length}</p> */}
-        <table className="min-w-full bg-white border border-gray-200">
+        <table className="w-full lg:min-w-full bg-white border border-gray-200">
           <thead>
             <tr>
-              <th className="py-2 px-4 border-b">Camp Name</th>
-              <th className="py-2 px-4 border-b">Camp Fees</th>
-              <th className="py-2 px-4 border-b">Payment</th>
-              <th className="py-2 px-4 border-b">Confirmation Status</th>
+              <th className="py-2 px-1 lg:px-4 border-b">Camp Fees</th>
+              <th className="py-2 px-1 lg:px-4 border-b">Camp Name</th>
+              <th className="py-2 px-1 lg:px-4 border-b">Payment</th>
+              <th className="py-2 px-1 lg:px-4 border-b">Confirmation Status</th>
             </tr>
           </thead>
           <tbody>
             {filteredCamps.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage).map((camp) => (
               <tr key={camp._id}>
-                <td className="py-2 px-4 border-b">{camp.campName}</td>
-                <td className="py-2 px-4 border-b">{camp.campFees}</td>
-                <td className="py-2 px-4 border-b">
+                <td className="py-2 px-1 lg:px-4 border-b">{camp.campName}</td>
+                <td className="py-2 px-1 lg:px-4 border-b">{camp.campFees}</td>
+                <td className="py-2 px-1 lg:px-4 border-b">
                   {camp.paymentStatus === "unpaid" ? (
                     <button className="mr-2 bg-blue-500 text-white px-4 py-2 rounded">
                       Unpaid

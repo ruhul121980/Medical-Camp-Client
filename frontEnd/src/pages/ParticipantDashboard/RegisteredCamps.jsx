@@ -132,7 +132,7 @@ const RegisteredCamps = () => {
         Registered Camps
       </h1>
       {/* Search input */}
-      <div className="w-3/4 mx-auto mb-4">
+      <div className="w-full text-xs lg:text-base lg:w-3/4 mx-auto mb-4">
         <input
           type="text"
           placeholder="Search..."
@@ -142,27 +142,27 @@ const RegisteredCamps = () => {
         />
       </div>
       {/* Table */}
-      <div className="w-3/4 mx-auto">
+      <div className="w-full lg:w-3/4 mx-auto">
         <table className="min-w-full bg-white border border-gray-200">
           <thead>
             <tr>
-              <th className="py-2 px-4 border-b">Camp Name</th>
-              <th className="py-2 px-4 border-b">Camp Fees</th>
-              <th className="py-2 px-4 border-b">Participant Name</th>
-              <th className="py-2 px-4 border-b">Payment</th>
-              <th className="py-2 px-4 border-b">
+              <th className="py-2 px-1 lg:px-4 border-b">Camp Name</th>
+              <th className="py-2 px-1 lg:px-4 border-b">Camp Fees</th>
+              <th className="py-2 px-1 lg:px-4 border-b">Participant Name</th>
+              <th className="py-2 px-1 lg:px-4 border-b">Payment</th>
+              <th className="py-2 px-1 lg:px-4 border-b">
                 Confirmation Status
               </th>
-              <th className="py-2 px-4 border-b">Actions</th>
+              <th className="py-2 px-1 lg:px-4 border-b">Actions</th>
             </tr>
           </thead>
           <tbody>
             {paginatedCamps.map((camp) => (
               <tr key={camp._id}>
-                <td className="py-2 px-4 border-b">{camp.campName}</td>
-                <td className="py-2 px-4 border-b">{camp.campFees}</td>
-                <td className="py-2 px-4 border-b">{camp.participantName}</td>
-                <td className="py-2 px-4 border-b">
+                <td className="py-2 px-1 lg:px-4 border-b">{camp.campName}</td>
+                <td className="py-2 px-1 lg:px-4 border-b">{camp.campFees}</td>
+                <td className="py-2 px-1 lg:px-4 border-b">{camp.participantName}</td>
+                <td className="py-2 px-1 lg:px-4 border-b">
                   {camp.paymentStatus === "unpaid" ? (
                     <Link to={`/dashboard/payment/${camp._id}`}>
                       <button className="mr-2 bg-blue-500 text-white px-4 py-2 rounded">

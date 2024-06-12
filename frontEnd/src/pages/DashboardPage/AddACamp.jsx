@@ -3,10 +3,11 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { AuthContext } from '../../providers/AuthProvider';
+import Swal from 'sweetalert2';
 
 const AddACamp = () => {
-  const { user} = useContext(AuthContext);
-  const email=user.email;
+  const { user } = useContext(AuthContext);
+  const email = user.email;
   const initialValues = {
     name: '',
     image: '',
@@ -34,14 +35,26 @@ const AddACamp = () => {
       .then(response => {
         console.log(response.data);
         resetForm();
+        Swal.fire({
+          title: 'Success!',
+          text: 'Camp added successfully.',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
       })
       .catch(error => {
         console.error(error);
+        Swal.fire({
+          title: 'Error!',
+          text: 'An error occurred while adding the camp.',
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
       });
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-slate-300 rounded-lg shadow-md">
+    <div className="max-w-lg mx-auto mt-10 p-6 bg-slate-300 rounded-lg shadow-md">
       <h1 className="text-2xl font-bold mb-6 text-center">Create Camp</h1>
       <Formik
         initialValues={initialValues}

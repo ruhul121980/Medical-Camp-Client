@@ -5,9 +5,9 @@ export default function Footer() {
     <div>
       <footer className="footer p-10 bg-neutral text-neutral-content">
         <aside>
-          <img className='h-24 w-24' src="https://i.ibb.co/pJv7kNr/Abstract-Human-Care-Foundation-Tree-Free-Logo.png" alt="" />
+          <img className='h-24 w-24' src="https://i.ibb.co/ykFNrkp/Green-and-Orange-Flat-Illustrative-Medical-Care-Healthy-Logo.png" alt="" />
           <p>
-            <span className='font-bold text-2xl'>Inner Quest Counselling</span><br />
+            <span className='font-bold text-2xl'>CampCare360</span><br />
             
           </p>
         </aside>
@@ -34,7 +34,7 @@ export default function Footer() {
         <p><span className='font-bold'>Contact Us </span>
             Phone:0162692277 <br />
             Email:ruhul121980@gmail.com</p>
-        <p className="text-center mt-6">&copy; {new Date().getFullYear()} Inner Quest Counselling. All rights reserved.
+        <p className="text-center mt-6">&copy; {new Date().getFullYear()} CampCare360. All rights reserved.
         </p>
       </footer>
     </div>

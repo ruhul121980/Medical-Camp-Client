@@ -30,7 +30,7 @@ const PopularCamps = () => {
         Popular Camps
       </h1>
 
-      <div className="mx-auto grid grid-cols-2 gap-5">
+      <div className="mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5">
         {sortedCamps.map((camp) => (
           <div key={camp._id}>
             <div className="card w-96 glass bg-slate-100">
