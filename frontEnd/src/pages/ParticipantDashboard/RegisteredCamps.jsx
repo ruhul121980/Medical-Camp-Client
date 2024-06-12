@@ -6,13 +6,13 @@ import { Link } from "react-router-dom";
 
 const fetchCamps = async (email) => {
   const { data } = await axios.get(
-    `http://localhost:5000/registeredCampInfo/${email}`
+    `https://medicamp-eight.vercel.app/registeredCampInfo/${email}`
   );
   return data;
 };
 
 const fetchParticipantCount = async (email) => {
-  const { data } = await axios.get(`http://localhost:5000/registeredCampInfo/${email}`);
+  const { data } = await axios.get(`https://medicamp-eight.vercel.app/registeredCampInfo/${email}`);
   return data.length; 
 };
 
@@ -64,7 +64,7 @@ const RegisteredCamps = () => {
 
   const handleCancel = (campId) => {
     axios
-      .delete(`http://localhost:5000/cancelRegistration/${campId}`)
+      .delete(`https://medicamp-eight.vercel.app/cancelRegistration/${campId}`)
       .then((response) => {
         console.log("Item deleted:", response.data);
         // Invalidate the query cache to trigger a refetch
@@ -91,7 +91,7 @@ const RegisteredCamps = () => {
   const handleFeedbackSubmit = () => {
     // Example POST request to submit feedback and rating
     axios
-      .post(`http://localhost:5000/submitFeedback`, {
+      .post(`https://medicamp-eight.vercel.app/submitFeedback`, {
         campName: selectedCamp.campName,
         feedback,
         rating,

@@ -4,9 +4,30 @@ import Swal from 'sweetalert2';
 import { AuthContext } from './../providers/AuthProvider';
 
 export default function Register() {
+  const { signInUser, signInWithGoogle, signInWithFacebook } = useContext(AuthContext);
   const { createUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+
+  const handleGoogleSignIn = () => {
+    signInWithGoogle()
+      .then(result => {
+        console.log(result.user);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
+  const handleFacebookSignIn = () => { 
+    signInWithFacebook()
+      .then(result => {
+        console.log(result.user);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -32,7 +53,7 @@ export default function Register() {
       await createUser(email, password, name, photoURL);
       
       // Send data to the backend to store in MongoDB
-      const response = await fetch('http://localhost:5000/register', {
+      const response = await fetch('https://medicamp-eight.vercel.app/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -117,6 +138,8 @@ export default function Register() {
               </button>
             </div>
           </form>
+          <p><button onClick={handleGoogleSignIn} className="btn btn-ghost">Google</button></p>
+                <p><button onClick={handleFacebookSignIn} className="btn btn-ghost">Facebook</button></p> 
         </div>
       </div>
     </div>

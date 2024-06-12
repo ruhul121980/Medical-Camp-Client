@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 
 const fetchCamps = async () => {
-  const { data } = await axios.get("http://localhost:5000/addCampData");
+  const { data } = await axios.get("https://medicamp-eight.vercel.app/addCampData");
   return data;
 };
 

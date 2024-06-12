@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from 'react-router-dom';
 
 const fetchCamps = async () => {
-  const { data } = await axios.get("http://localhost:5000/addCampData");
+  const { data } = await axios.get("https://medicamp-eight.vercel.app/addCampData");
   return data;
 };
 
@@ -30,10 +30,10 @@ const PopularCamps = () => {
         Popular Camps
       </h1>
 
-      <div className="w-2/3 mx-auto grid grid-cols-2 gap-5">
+      <div className="mx-auto grid grid-cols-2 gap-5">
         {sortedCamps.map((camp) => (
           <div key={camp._id}>
-            <div className="card w-96 glass">
+            <div className="card w-96 glass bg-slate-100">
               <figure>
                 <img src={camp.image} alt="Camp!" />
               </figure>

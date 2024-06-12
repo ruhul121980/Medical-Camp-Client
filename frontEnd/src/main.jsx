@@ -27,6 +27,7 @@ import ParticipantProfile from './pages/ParticipantDashboard/ParticipantProfile'
 import RegisteredCamps from './pages/ParticipantDashboard/RegisteredCamps';
 import PaymentHistory from './pages/ParticipantDashboard/PaymentHistory';
 import Payments from './pages/ParticipantDashboard/Payment/Payments';
+import PrivateRoute from './routes/PrivateRoute';
 
 
 
@@ -55,7 +56,7 @@ const router = createBrowserRouter([
       },
       {
         path:'/popularDetails/:id',
-        element:<DetailsPopularCamp></DetailsPopularCamp>
+        element:<PrivateRoute><DetailsPopularCamp></DetailsPopularCamp></PrivateRoute>
       },
       {
         path:'editCamp/:id',

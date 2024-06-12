@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
-import axios from 'axios'; // Corrected import statement
+import axios from 'axios';
 
 export default function Navbar() {
   const { user, logOut } = useContext(AuthContext);
@@ -10,8 +10,8 @@ export default function Navbar() {
   
   useEffect(() => {
     // Fetch user info when component mounts
-    if (user) {
-      axios.get(`http://localhost:5000/participantInfo/${user.email}`)
+    if (user && user.email) {
+      axios.get(`https://medicamp-eight.vercel.app/participantInfo/${user.email}`)
         .then(response => {
           // Handle successful response
           console.log('Response data:', response.data);
@@ -34,6 +34,8 @@ export default function Navbar() {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  const isAdmin = user && user.email === 'admin@gmail.com';
+
   const navLinks = (
     <>
       <li>
@@ -51,7 +53,6 @@ export default function Navbar() {
           Join Us
         </NavLink>
       </li>
-      {user && <></>}
     </>
   );
 
@@ -103,13 +104,11 @@ export default function Navbar() {
                   <div className="px-4 py-2 border-b border-gray-200">
                     {participantInfo.name}
                   </div>
-
-                  <Link to="/dashboard/organizerProfile">
+                  <Link to={isAdmin ? "/dashboard/organizerProfile" : "/dashboard/analytics"}>
                     <button className="w-full text-left px-4 py-2 hover:bg-gray-100">
                       Dashboard
                     </button>
                   </Link>
-
                   <button
                     onClick={handleLogout}
                     className="w-full text-left px-4 py-2 hover:bg-gray-100"

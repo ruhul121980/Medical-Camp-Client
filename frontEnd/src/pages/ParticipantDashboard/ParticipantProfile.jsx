@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import { AuthContext } from '../../providers/AuthProvider';
 
 const fetchProfileData = async (email) => {
-  const response = await fetch(`http://localhost:5000/participantInfo/${email}`);
+  const response = await fetch(`https://medicamp-eight.vercel.app/participantInfo/${email}`);
   if (!response.ok) {
     throw new Error('Network response was not ok');
   }
@@ -14,7 +14,7 @@ const fetchProfileData = async (email) => {
 };
 
 const updateProfileData = async ({ email, profileData }) => {
-  const response = await fetch(`http://localhost:5000/updateOrganizerProfile/${email}`, {
+  const response = await fetch(`https://medicamp-eight.vercel.app/updateOrganizerProfile/${email}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

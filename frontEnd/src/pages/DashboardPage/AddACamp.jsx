@@ -30,7 +30,7 @@ const AddACamp = () => {
   });
 
   const onSubmit = (values, { resetForm }) => {
-    axios.post('http://localhost:5000/addCamp', values)
+    axios.post('https://medicamp-eight.vercel.app/addCamp', values)
       .then(response => {
         console.log(response.data);
         resetForm();

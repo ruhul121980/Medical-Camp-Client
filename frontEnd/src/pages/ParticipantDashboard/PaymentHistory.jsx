@@ -5,12 +5,12 @@ import { AuthContext } from "../../providers/AuthProvider";
 import { Link } from "react-router-dom";
 
 const fetchCamps = async (email) => {
-  const { data } = await axios.get(`http://localhost:5000/registeredCampInfo/${email}`);
+  const { data } = await axios.get(`https://medicamp-eight.vercel.app/registeredCampInfo/${email}`);
   return data;
 };
 
 const fetchParticipantCount = async (email) => {
-  const { data } = await axios.get(`http://localhost:5000/registeredCampInfo/${email}`);
+  const { data } = await axios.get(`https://medicamp-eight.vercel.app/registeredCampInfo/${email}`);
   return data.length; 
 };
 

@@ -23,7 +23,7 @@ const CheckoutForm = ({ camps }) => {
 
         const createPaymentIntent = async () => {
             try {
-                const response = await fetch('http://localhost:5000/create-payment-intent', {
+                const response = await fetch('https://medicamp-eight.vercel.app/create-payment-intent', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -98,7 +98,7 @@ const CheckoutForm = ({ camps }) => {
                     id: id
                 };
                 try {
-                    const res = await axios.post('http://localhost:5000/paymentHistory', payment);
+                    const res = await axios.post('https://medicamp-eight.vercel.app/paymentHistory', payment);
                     console.log('payment saved', res);
                 } catch (err) {
                     console.error('Error saving payment:', err);

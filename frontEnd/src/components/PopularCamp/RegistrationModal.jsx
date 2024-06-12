@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import Swal from "sweetalert2";
 import { AuthContext } from '../../providers/AuthProvider';
 
-const RegistrationModal = ({ camp, isOpen, onRequestClose, participant }) => {
+const RegistrationModal = ({ camp, isOpen, onRequestClose, participant,profileName }) => {
   const { user } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     age: '',
@@ -37,7 +37,7 @@ const RegistrationModal = ({ camp, isOpen, onRequestClose, participant }) => {
     const modalValues = { age, phoneNumber, gender, emergencyContact, campName, campFees, campLocation, campHealthcareProfessional, participantName, participantEmail, paymentStatus, confirmationStatus };
     console.log('Form Data:', formData);
 
-    fetch(`http://localhost:5000/modalData/${camp._id}`, {
+    fetch(`https://medicamp-eight.vercel.app/modalData/${camp._id}`, {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
@@ -62,6 +62,7 @@ const RegistrationModal = ({ camp, isOpen, onRequestClose, participant }) => {
   return (
     <Modal isOpen={isOpen} onRequestClose={onRequestClose} ariaHideApp={false}>
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-md mx-auto">
+      
         <h2 className="text-2xl font-semibold mb-4">Register for {camp.name}</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -104,7 +105,7 @@ const RegistrationModal = ({ camp, isOpen, onRequestClose, participant }) => {
             <label className="block text-sm font-medium text-gray-700">Participant Name:</label>
             <input
               type="text"
-              value={participantName} // Use participantName variable
+              value={profileName} // Use participantName variable
               readOnly
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md bg-gray-100"
             />

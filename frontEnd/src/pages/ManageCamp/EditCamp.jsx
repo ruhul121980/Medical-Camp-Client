@@ -11,7 +11,7 @@ const EditCamp = () => {
   const email = user.email;
 
   const fetchCamps = async (userEmail) => {
-    const { data } = await axios.get(`http://localhost:5000/allCamp/${userEmail}`);
+    const { data } = await axios.get(`https://medicamp-eight.vercel.app/allCamp/${userEmail}`);
     return data;
   };
 
@@ -54,7 +54,7 @@ const EditCamp = () => {
 
   const onSubmit =async (values, { resetForm }) => {
     try {
-      const response = await axios.put(`http://localhost:5000/updateCamp/${camp._id}`, values);
+      const response = await axios.put(`https://medicamp-eight.vercel.app/updateCamp/${camp._id}`, values);
       console.log(response.data);
       Swal.fire({
         icon: 'success',

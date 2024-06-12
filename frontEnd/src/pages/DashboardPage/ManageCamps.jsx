@@ -5,12 +5,12 @@ import { Link } from 'react-router-dom';
 import { AuthContext } from "../../providers/AuthProvider";
 
 const fetchCamps = async (userEmail) => {
-  const { data } = await axios.get(`http://localhost:5000/allCamp/${userEmail}`);
+  const { data } = await axios.get(`https://medicamp-eight.vercel.app/allCamp/${userEmail}`);
   return data;
 };
 
 const fetchTotalCount = async (userEmail) => {
-  const { data } = await axios.get(`http://localhost:5000/allCamp/${userEmail}`);
+  const { data } = await axios.get(`https://medicamp-eight.vercel.app/allCamp/${userEmail}`);
   return data.length;
 };
 
@@ -144,7 +144,7 @@ const ManageCamps = () => {
 
 const handleDelete = async (campId) => {
   try {
-    await axios.delete(`http://localhost:5000/deleteCamp/${campId}`);
+    await axios.delete(`https://medicamp-eight.vercel.app/deleteCamp/${campId}`);
     // refetch the camps or update the state to remove the deleted camp
   } catch (error) {
     console.error("Error deleting camp:", error);

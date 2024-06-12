@@ -1,26 +1,54 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from 'react-router-dom';
 import RegistrationModal from './RegistrationModal'; // import the modal component
+import { AuthContext } from "../../providers/AuthProvider";
 
 const fetchCampDetails = async (id) => {
-  const { data } = await axios.get(`http://localhost:5000/addCampData/${id}`);
+  const { data } = await axios.get(`https://medicamp-eight.vercel.app/addCampData/${id}`);
+  return data;
+};
+
+const fetchProfileData = async (email) => {
+  const response = await fetch(`https://medicamp-eight.vercel.app/participantInfo/${email}`);
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  const data = await response.json();
   return data;
 };
 
 const DetailsPopularCamp = () => {
+  const { user } = useContext(AuthContext);
   const { id } = useParams();
   const { data: camp, error, isLoading } = useQuery({
     queryKey: ["campDetails", id],
     queryFn: () => fetchCampDetails(id),
   });
 
-  
   const participant = {
     name: "John Doe",
     email: "john.doe@example.com"
   };
+
+  const [profileData, setProfileData] = useState({
+    name: '',
+    image: '',
+    contactNumber: ''
+  });
+
+  const { data } = useQuery({
+    queryKey: ['profileData', user?.email], // Add conditional access to user.email
+    queryFn: () => fetchProfileData(user?.email), // Add conditional access to user.email
+  });
+
+  useEffect(() => {
+    if (data) {
+      setProfileData(data);
+    }
+  }, [data]);
+
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -29,6 +57,7 @@ const DetailsPopularCamp = () => {
 
   return (
     <div>
+      {console.log("now",profileData.name)}
       <h1 className="text-center text-purple-600 font-bold text-4xl my-10">
         Camp Details
       </h1>
@@ -55,6 +84,7 @@ const DetailsPopularCamp = () => {
       <RegistrationModal
         camp={camp}
         isOpen={modalIsOpen}
+        profileName={profileData.name}
         onRequestClose={() => setModalIsOpen(false)}
         participant={participant}
       />

@@ -8,7 +8,7 @@ const Analytics = () => {
   const [campData, setCampData] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/participantCampsData/${user.email}`)
+    axios.get(`https://medicamp-eight.vercel.app/participantCampsData/${user.email}`)
       .then(response => {
         if (response.data.error) {
           console.error("Error fetching participant's registered camps data:", response.data.error);

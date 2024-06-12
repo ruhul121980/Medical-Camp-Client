@@ -13,7 +13,7 @@ const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY);
 import CheckoutForm from './Checkoutform';
 
 const fetchCamps = async (id) => {
-  const { data } = await axios.get(`http://localhost:5000/getFees/${id}`);
+  const { data } = await axios.get(`https://medicamp-eight.vercel.app/getFees/${id}`);
   return data;
 };
 

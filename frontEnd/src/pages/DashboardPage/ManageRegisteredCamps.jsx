@@ -4,16 +4,16 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthContext } from "../../providers/AuthProvider";
 
 const fetchCamps = async () => {
-  const { data } = await axios.get(`http://localhost:5000/getRegisterInfo`);
+  const { data } = await axios.get(`https://medicamp-eight.vercel.app/getRegisterInfo`);
   return data;
 };
 
 const cancelRegistration = async (campId) => {
-  await axios.delete(`http://localhost:5000/deleteRegistration/${campId}`);
+  await axios.delete(`https://medicamp-eight.vercel.app/deleteRegistration/${campId}`);
 };
 
 const updateConfirmationStatus = async (campId) => {
-  await axios.put(`http://localhost:5000/updateConfirmationStatus/${campId}`);
+  await axios.put(`https://medicamp-eight.vercel.app/updateConfirmationStatus/${campId}`);
 };
 
 const ManageRegisteredCamps = () => {
