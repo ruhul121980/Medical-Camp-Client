@@ -1,4 +1,6 @@
 Live Link:https://medi-camp-77c1e.web.app/
+CampCare360 | Medical Camp Managment
+System
 CampCare360 is a web application designed to manage medical camps efficiently. It addresses the need for organizers to streamline camp management and participants to easily access and manage their camp registrations.
 
 Features
